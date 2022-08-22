@@ -13,4 +13,9 @@ public class RequestUser {
     private String password;
     @NotNull(message = "Nickname can not be null")
     private String nickname;
+
+    private String jobTendency;
+    private String languageTendency;
+    private String lectureTendency;
+
 }

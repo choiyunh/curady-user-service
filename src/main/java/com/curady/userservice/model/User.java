@@ -45,4 +45,7 @@ public class User {
         }
         return new ArrayList<>();
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<UserTendency> userTendencies = new ArrayList<>();
 }

@@ -1,8 +1,10 @@
 package com.curady.userservice.vo;
 
+import com.curady.userservice.model.UserTendency;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 public class RequestUser {
@@ -14,8 +16,5 @@ public class RequestUser {
     @NotNull(message = "Nickname can not be null")
     private String nickname;
 
-    private String jobTendency;
-    private String languageTendency;
-    private String lectureTendency;
-
+    private List<UserTendency> userTendency;
 }

@@ -2,11 +2,13 @@ package com.curady.userservice.dto;
 
 import com.curady.userservice.model.UserTendency;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class UserDto {
     private String email;
 

@@ -2,11 +2,13 @@ package com.curady.userservice.vo;
 
 import com.curady.userservice.model.UserTendency;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 public class RequestUser {
     @NotNull(message = "Email cna not be null")
     private String email;

@@ -17,9 +17,9 @@ public class Tendency {
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String tendencyType;
+    private String type;
     @Column(nullable = false, length = 50, unique = true)
-    private String tendencyName;
+    private String name;
 
     @OneToMany(mappedBy = "tendency")
     private List<UserTendency> userTendencies = new ArrayList<>();

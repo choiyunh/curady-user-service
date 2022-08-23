@@ -1,6 +1,6 @@
 package com.curady.userservice.dto;
 
-import com.curady.userservice.model.UserTendency;
+import com.curady.userservice.model.Tendency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,5 +19,5 @@ public class UserDto {
     private Date createdAt;
     private Date updatedAt;
     private String encryptedPwd;
-    private List<UserTendency> userTendency;
+    private List<Tendency> tendency;
 }

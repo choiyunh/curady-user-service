@@ -1,6 +1,6 @@
 package com.curady.userservice.vo;
 
-import com.curady.userservice.model.UserTendency;
+import com.curady.userservice.model.Tendency;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,5 +18,5 @@ public class RequestUser {
     @NotNull(message = "Nickname can not be null")
     private String nickname;
 
-    private List<UserTendency> userTendency;
+    private List<Tendency> tendency;
 }

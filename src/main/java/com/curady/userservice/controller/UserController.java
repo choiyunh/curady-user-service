@@ -3,6 +3,7 @@ package com.curady.userservice.controller;
 import com.curady.userservice.dto.UserDto;
 import com.curady.userservice.mapper.UserMapper;
 import com.curady.userservice.service.UserService;
+import com.curady.userservice.service.UserTendencyService;
 import com.curady.userservice.vo.RequestUser;
 import com.curady.userservice.vo.ResponseUser;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     Environment env;
     UserService userService;
+    UserTendencyService userTendencyService;
 
     @Autowired
-    public UserController(Environment env, UserService userService) {
+    public UserController(Environment env, UserService userService, UserTendencyService userTendencyService) {
         this.env = env;
         this.userService = userService;
+        this.userTendencyService = userTendencyService;
     }
 
     @GetMapping("/health_check")
@@ -35,6 +38,7 @@ public class UserController {
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         UserDto userDto = UserMapper.INSTANCE.requestToDto(user);
         userService.createUser(userDto);
+        userTendencyService.createUserTendency(userDto);
 
         ResponseUser responseUser = UserMapper.INSTANCE.dtoToResponse(userDto);
 

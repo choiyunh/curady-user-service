@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+
 @NoArgsConstructor
 @Table(name = "user_tendency")
 public class UserTendency {
@@ -21,4 +22,9 @@ public class UserTendency {
     @ManyToOne
     @JoinColumn(name = "tendency_id")
     private Tendency tendency;
+
+    public UserTendency(User user, Tendency tendency) {
+        this.user = user;
+        this.tendency = tendency;
+    }
 }

@@ -1,6 +1,7 @@
 package com.curady.userservice.service;
 
 import com.curady.userservice.dto.UserDto;
+import com.curady.userservice.mapper.UserMapper;
 import com.curady.userservice.model.Tendency;
 import com.curady.userservice.model.User;
 import com.curady.userservice.model.UserTendency;
@@ -27,16 +28,16 @@ public class UserTendencyService {
     }
 
     public void createUserTendency(UserDto userDto) {
-        User user = userRepository.findByEmail(userDto.getEmail());
+        User user = UserMapper.INSTANCE.dtoToEntity(userDto);
         List<Tendency> requestTendency = userDto.getTendency();
 
-        for (Tendency td : requestTendency) {
-            Optional<Tendency> tendency = tendencyRepository.findByName(td.getName());
+        requestTendency.forEach(v -> {
+            Optional<Tendency> tendency = tendencyRepository.findByName(v.getName());
 
             if (tendency.isEmpty()) {
                 throw new RuntimeException();
             }
             userTendencyRepository.save(new UserTendency(user, tendency.get()));
-        }
+        });
     }
 }

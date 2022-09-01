@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -15,35 +16,27 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     BCryptPasswordEncoder passwordEncoder;
+    UserTendencyService userTendencyService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, UserTendencyService userTendencyService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userTendencyService = userTendencyService;
     }
 
     @Override
     public void createUser(UserDto userDto) {
-        userDto.setUuid(UUID.randomUUID().toString());
-
         User user = UserMapper.INSTANCE.dtoToEntity(userDto);
         user.setEncryptedPwd(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles("ROLE_USER");
 
         userRepository.save(user);
+        userTendencyService.createUserTendency(userDto);
     }
 
     @Override
-    public Iterable<User> getUserByAll() {
+    public Iterable<User> getAllUsers() {
         return userRepository.findAll();
-    }
-    @Override
-    public User getUserByUuid(String uuid) {
-        User user = userRepository.findByUuid(uuid);
-
-        if (user == null)
-            throw new UsernameNotFoundException("User not found");
-
-        return user;
     }
 }

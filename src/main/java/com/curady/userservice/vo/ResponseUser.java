@@ -8,5 +8,4 @@ import lombok.Data;
 public class ResponseUser {
     private String email;
     private String nickname;
-    private String uuid;
 }

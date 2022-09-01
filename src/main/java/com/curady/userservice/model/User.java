@@ -29,8 +29,6 @@ public class User {
     private String imageUrl;
     @Column(nullable = false, length = 50, unique = true)
     private String nickname;
-    @Column(nullable = false, unique = true)
-    private String uuid;
 
     @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     @CreationTimestamp

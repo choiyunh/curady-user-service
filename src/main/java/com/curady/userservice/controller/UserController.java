@@ -29,7 +29,6 @@ public class UserController {
     public UserController(Environment env, UserService userService, UserTendencyService userTendencyService) {
         this.env = env;
         this.userService = userService;
-        this.userTendencyService = userTendencyService;
     }
 
     @GetMapping("/health_check")
@@ -38,34 +37,24 @@ public class UserController {
                 env.getProperty("local.server.port"));
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
-        UserDto userDto = UserMapper.INSTANCE.requestToDto(user);
+    @PostMapping("/users")
+    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser requestUser) {
+        UserDto userDto = UserMapper.INSTANCE.requestToDto(requestUser);
         userService.createUser(userDto);
-        userTendencyService.createUserTendency(userDto);
 
         ResponseUser responseUser = UserMapper.INSTANCE.dtoToResponse(userDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getUsers() {
-        Iterable<User> users = userService.getUserByAll();
+        Iterable<User> users = userService.getAllUsers();
 
         List<ResponseUser> result = new ArrayList<>();
         users.forEach(v -> {
             result.add(UserMapper.INSTANCE.entityToResponse(v));
         });
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @GetMapping("/user/{uuid}")
-    public ResponseEntity<ResponseUser> getUser(@PathVariable String uuid) {
-        User user = userService.getUserByUuid(uuid);
-
-        ResponseUser result = UserMapper.INSTANCE.entityToResponse(user);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

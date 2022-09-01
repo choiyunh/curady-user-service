@@ -15,7 +15,6 @@ public class UserDto {
     private String password;
     private String nickname;
     private String imageUrl;
-    private String uuid;
     private Date createdAt;
     private Date updatedAt;
     private String encryptedPwd;

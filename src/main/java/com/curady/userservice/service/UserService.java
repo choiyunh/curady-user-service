@@ -7,7 +7,5 @@ import java.util.Optional;
 
 public interface UserService {
     void createUser(UserDto userDto);
-
-    User getUserByUuid(String uuid);
-    Iterable<User> getUserByAll();
+    Iterable<User> getAllUsers();
 }

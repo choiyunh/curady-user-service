@@ -1,6 +1,7 @@
 package com.curady.userservice.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "user")
 public class User {
     @Id
@@ -45,4 +47,7 @@ public class User {
         }
         return new ArrayList<>();
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<UserTendency> userTendencies = new ArrayList<>();
 }

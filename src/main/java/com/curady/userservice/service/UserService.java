@@ -1,11 +1,11 @@
 package com.curady.userservice.service;
 
 import com.curady.userservice.dto.UserDto;
-import com.curady.userservice.model.User;
+import com.curady.userservice.entity.User;
+import com.curady.userservice.vo.ResponseSignup;
 
-import java.util.Optional;
+import javax.mail.MessagingException;
 
 public interface UserService {
-    void createUser(UserDto userDto);
     Iterable<User> getAllUsers();
 }

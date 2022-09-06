@@ -1,15 +1,13 @@
-package com.curady.userservice.model;
+package com.curady.userservice.entity;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
@@ -21,14 +19,16 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String encryptedPwd;
     @Column()
     private String imageUrl;
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(length = 50, unique = true)
     private String nickname;
+    @Column()
+    private boolean emailAuth;
 
     @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     @CreationTimestamp
@@ -44,6 +44,10 @@ public class User {
             return Arrays.asList(this.roles.split(","));
         }
         return new ArrayList<>();
+    }
+
+    public void verifyEmail() {
+        this.emailAuth = true;
     }
 
     @OneToMany(mappedBy = "user")

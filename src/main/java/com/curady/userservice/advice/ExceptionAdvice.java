@@ -18,7 +18,7 @@ public class ExceptionAdvice {
     private final ResponseService responseService;
 
     @ExceptionHandler(UserEmailAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public Result userEmailAlreadyExistsException() {
         return responseService.getFailureResult(-101, "이미 존재하는 이메일입니다.");
     }
@@ -30,13 +30,13 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(AuthenticationEntryPointException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Result authenticationEntryPointException() {
         return responseService.getFailureResult(-102, "로그인이 필요합니다.");
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     public Result accessDeniedException() {
         return responseService.getFailureResult(-103, "권한이 필요합니다.");
     }

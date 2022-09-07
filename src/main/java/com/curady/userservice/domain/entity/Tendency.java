@@ -1,4 +1,4 @@
-package com.curady.userservice.model;
+package com.curady.userservice.domain.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

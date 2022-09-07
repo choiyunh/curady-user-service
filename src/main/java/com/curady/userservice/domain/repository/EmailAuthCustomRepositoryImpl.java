@@ -1,7 +1,7 @@
-package com.curady.userservice.repository;
+package com.curady.userservice.domain.repository;
 
-import com.curady.userservice.entity.EmailAuth;
-import com.curady.userservice.entity.QEmailAuth;
+import com.curady.userservice.domain.entity.EmailAuth;
+import com.curady.userservice.domain.entity.QEmailAuth;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 

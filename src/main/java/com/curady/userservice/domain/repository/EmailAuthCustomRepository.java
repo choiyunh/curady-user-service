@@ -1,6 +1,6 @@
-package com.curady.userservice.repository;
+package com.curady.userservice.domain.repository;
 
-import com.curady.userservice.entity.EmailAuth;
+import com.curady.userservice.domain.entity.EmailAuth;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

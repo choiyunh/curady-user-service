@@ -1,4 +1,4 @@
-package com.curady.userservice.entity;
+package com.curady.userservice.domain.entity;
 
 import lombok.*;
 

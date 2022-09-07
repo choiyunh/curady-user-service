@@ -1,4 +1,4 @@
-package com.curady.userservice.vo;
+package com.curady.userservice.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

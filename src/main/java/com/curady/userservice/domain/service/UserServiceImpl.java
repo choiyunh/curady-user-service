@@ -5,11 +5,13 @@ import com.curady.userservice.advice.exception.UserNotFoundException;
 import com.curady.userservice.domain.entity.Tendency;
 import com.curady.userservice.domain.entity.User;
 import com.curady.userservice.domain.entity.UserTendency;
+import com.curady.userservice.domain.mapper.UserMapper;
 import com.curady.userservice.domain.repository.TendencyRepository;
 import com.curady.userservice.domain.repository.UserRepository;
 import com.curady.userservice.domain.repository.UserTendencyRepository;
 import com.curady.userservice.web.dto.RequestUserInfo;
 import com.curady.userservice.web.dto.ResponseSignup;
+import com.curady.userservice.web.dto.ResponseUserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +42,11 @@ public class UserServiceImpl implements UserService {
                 .id(user.getId())
                 .email(user.getEmail())
                 .build();
+    }
+
+    @Override
+    public ResponseUserInfo getUserInfoByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        return UserMapper.INSTANCE.entityToResponse(user);
     }
 }

@@ -37,14 +37,13 @@ public class SignService {
                         .expired(false)
                         .build());
 
+        emailSenderService.sendEmail(emailAuth.getEmail(), emailAuth.getAuthToken());
         User user = userRepository.save(
                 User.builder()
                         .email(request.getEmail())
                         .encryptedPwd(passwordEncoder.encode(request.getPassword()))
                         .isEmailAuth(false)
                         .build());
-
-        emailSenderService.sendEmail(emailAuth.getEmail(), emailAuth.getAuthToken());
 
         return ResponseSignup.builder()
                 .id(user.getId())

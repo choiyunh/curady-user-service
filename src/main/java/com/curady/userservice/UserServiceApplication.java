@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @OpenAPIDefinition(info =
-    @Info(title = "Lecture API", version = "1.0", description = "Documentation Lecture API v1.0")
+    @Info(title = "User API", version = "1.0", description = "Documentation User API v1.0")
 )
 public class UserServiceApplication {
 

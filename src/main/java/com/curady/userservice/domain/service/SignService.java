@@ -52,7 +52,7 @@ public class SignService {
         return ResponseSignup.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .emailAuthToken(emailAuth.getAuthToken())
+                .expireDate(emailAuth.getExpireDate())
                 .build();
     }
 

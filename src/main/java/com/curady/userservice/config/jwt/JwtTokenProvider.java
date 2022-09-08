@@ -25,7 +25,7 @@ public class JwtTokenProvider {
     @Value("${spring.jwt.secretKey}")
     private String secretKey;
 
-    private long tokenValidTime = 1L; // 30 minutes
+    private long tokenValidTime = 1000L * 60 * 30; // 30 minutes
     private long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 7; // 7 days
 
     private final UserDetailsService userDetailsService;
@@ -59,7 +59,6 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(getUserEmail(token));
-        log.info(userDetails.getUsername());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

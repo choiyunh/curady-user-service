@@ -2,6 +2,8 @@ package com.curady.userservice.domain.service;
 
 import com.curady.userservice.advice.exception.*;
 import com.curady.userservice.config.jwt.JwtTokenProvider;
+import com.curady.userservice.domain.auth.AccessToken;
+import com.curady.userservice.domain.auth.profile.ProfileDto;
 import com.curady.userservice.domain.entity.EmailAuth;
 import com.curady.userservice.domain.entity.User;
 import com.curady.userservice.domain.repository.EmailAuthRepository;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -26,6 +29,7 @@ public class SignService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final EmailAuthRepository emailAuthRepository;
     private final EmailSenderService emailSenderService;
+    private final ProviderService providerService;
     private final UserRepository userRepository;
 
     public ResponseSignup createUser(RequestSignup request) throws MessagingException {
@@ -75,5 +79,31 @@ public class SignService {
             throw new EmailNotAuthenticatedException();
         user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
         return new ResponseLogin(user.getId(), jwtTokenProvider.createToken(request.getEmail()), user.getRefreshToken());
+    }
+
+    @Transactional
+    public ResponseLogin loginMemberByProvider(String code, String provider) {
+        AccessToken accessToken = providerService.getAccessToken(code, provider);
+        ProfileDto profile = providerService.getProfile(accessToken.getAccess_token(), provider);
+
+        Optional<User> findMember = userRepository.findByEmailAndProvider(profile.getEmail(), provider);
+        if (findMember.isPresent()) {
+            User user = findMember.get();
+            user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
+            return new ResponseLogin(user.getId(), jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
+        } else {
+            User saveMember = saveUser(profile, provider);
+            saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
+            return new ResponseLogin(saveMember.getId(), jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
+        }
+    }
+
+    private User saveUser(ProfileDto profile, String provider) {
+        User user = User.builder()
+                .email(profile.getEmail())
+                .encryptedPwd(null)
+                .provider(provider)
+                .build();
+        return userRepository.save(user);
     }
 }

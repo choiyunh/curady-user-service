@@ -37,6 +37,8 @@ public class User {
     @Column(length = 1000)
     private String description;
     @Column
+    private String provider;
+    @Column
     private boolean isEmailAuth;
     @Column
     private String refreshToken;

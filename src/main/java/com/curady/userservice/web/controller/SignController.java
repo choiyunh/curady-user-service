@@ -1,5 +1,6 @@
 package com.curady.userservice.web.controller;
 
+import com.curady.userservice.domain.auth.AuthCode;
 import com.curady.userservice.domain.result.SingleResult;
 import com.curady.userservice.domain.service.ResponseService;
 import com.curady.userservice.domain.service.SignService;
@@ -33,10 +34,17 @@ public class SignController {
         return responseService.getSingleResult("이메일 인증이 완료되었습니다.");
     }
 
-    @Operation(description = "email과 password를 입력하여 로그인을 진행합니다. refreshToken을 반환합니다.")
+    @Operation(description = "email과 password를 입력하여 로그인을 진행합니다.")
     @PostMapping("/login")
     public SingleResult<ResponseLogin> login(@RequestBody RequestLogin requestLogin) {
         ResponseLogin responseLogin = signService.loginUser(requestLogin);
+        return responseService.getSingleResult(responseLogin);
+    }
+
+    @Operation(description = "kakao 로그인을 진행합니다.")
+    @PostMapping("/login/kakao")
+    public SingleResult<ResponseLogin> loginByKakao(@RequestBody AuthCode authCode) {
+        ResponseLogin responseLogin = signService.loginMemberByProvider(authCode.getCode(), "kakao");
         return responseService.getSingleResult(responseLogin);
     }
 }

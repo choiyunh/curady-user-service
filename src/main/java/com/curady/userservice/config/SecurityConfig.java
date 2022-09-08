@@ -1,58 +1,46 @@
 package com.curady.userservice.config;
 
+import com.curady.userservice.config.accessDeniedHandler.AccessDeniedHandlerImpl;
+import com.curady.userservice.config.authenticationEntryPoint.AuthenticationEntryPointImpl;
 import com.curady.userservice.config.jwt.JwtAuthenticationFilter;
-import com.curady.userservice.config.jwt.JwtAuthorizationFilter;
-import com.curady.userservice.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.curady.userservice.config.jwt.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private UserRepository userRepository;
-    private CorsConfig corsConfig;
-
-    @Autowired
-    public SecurityConfig(UserRepository userRepository, CorsConfig corsConfig) {
-        this.userRepository = userRepository;
-        this.corsConfig = corsConfig;
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin().disable()
                 .httpBasic().disable()
-                .apply(new CustomDsl())
+                .csrf().disable()
+                .formLogin().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 .and()
-                .authorizeRequests(authorize -> authorize.antMatchers("/main/**")
-                        .access("hasRole('ROLE_USER')")
-                        .anyRequest().permitAll())
+                .authorizeRequests()
+                .antMatchers("/users/**").authenticated()
+                .anyRequest().permitAll()
+
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPointImpl())
+                .and()
+                .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl())
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-    public class CustomDsl extends AbstractHttpConfigurer<CustomDsl, HttpSecurity> {
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            http
-                    .addFilter(corsConfig.corsFilter())
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager))
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
-        }
-    }
-
 }
 

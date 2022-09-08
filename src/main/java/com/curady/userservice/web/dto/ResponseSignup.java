@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,5 +16,5 @@ import lombok.NoArgsConstructor;
 public class ResponseSignup {
     private Long id;
     private String email;
-    private String emailAuthToken;
+    private LocalDateTime expireDate;
 }

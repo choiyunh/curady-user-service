@@ -8,12 +8,13 @@ import com.curady.userservice.web.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping
 @RequiredArgsConstructor
 public class SignController {
@@ -29,9 +30,9 @@ public class SignController {
 
     @Operation(description = "이메일 인증")
     @GetMapping("/confirmEmail")
-    public SingleResult<String> confirmEmail(@ModelAttribute RequestEmailAuth requestEmailAuth) {
+    public String confirmEmail(@ModelAttribute RequestEmailAuth requestEmailAuth) {
         signService.confirmEmail(requestEmailAuth);
-        return responseService.getSingleResult("이메일 인증이 완료되었습니다.");
+        return "response/successEmailAuth";
     }
 
     @Operation(description = "email과 password를 입력하여 로그인을 진행합니다.")

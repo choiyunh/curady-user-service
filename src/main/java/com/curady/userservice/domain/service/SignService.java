@@ -64,7 +64,7 @@ public class SignService {
     @Transactional
     public void confirmEmail(RequestEmailAuth request) {
         EmailAuth emailAuth = emailAuthRepository.findValidAuthByEmail(request.getEmail(), request.getAuthToken(), LocalDateTime.now())
-                .orElseThrow(EmailAuthTokenNotFountException::new);
+                .orElseThrow(EmailAuthTokenNotFoundException::new);
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UserNotFoundException::new);
         emailAuth.useToken();
         user.verifyEmail();

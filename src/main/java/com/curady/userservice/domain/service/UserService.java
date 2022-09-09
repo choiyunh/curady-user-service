@@ -7,4 +7,5 @@ import com.curady.userservice.web.dto.ResponseUserInfo;
 public interface UserService {
     ResponseSignup createUserInfo(RequestUserInfo request);
     ResponseUserInfo getUserInfoByEmail(String email);
+    Boolean checkUserEmailAuth(Long id);
 }

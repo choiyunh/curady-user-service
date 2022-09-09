@@ -27,7 +27,8 @@ public class SignController {
         return responseService.getSingleResult(responseSignup);
     }
 
-    @Operation(description = "이메일 인증")
+    @Operation(description = "유저의 이메일로 전송할 인증 링크에 사용될 이메일 인증 API입니다." +
+            "유저의 이메일 인증 여부를 확인하는 API는 /emailAuth 입니다.")
     @GetMapping("/confirmEmail")
     public SingleResult<String> confirmEmail(@ModelAttribute RequestEmailAuth requestEmailAuth) {
         signService.confirmEmail(requestEmailAuth);

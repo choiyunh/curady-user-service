@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping
 @RequiredArgsConstructor
 public class SignController {
@@ -26,14 +26,6 @@ public class SignController {
     public SingleResult<ResponseSignup> createUser(@RequestBody RequestSignup requestSignup) throws MessagingException {
         ResponseSignup responseSignup = signService.createUser(requestSignup);
         return responseService.getSingleResult(responseSignup);
-    }
-
-    @Operation(description = "유저의 이메일로 전송할 인증 링크에 사용될 이메일 인증 API입니다." +
-            "유저의 이메일 인증 여부를 확인하는 API는 /emailAuth 입니다.")
-    @GetMapping("/confirmEmail")
-    public String confirmEmail(@ModelAttribute RequestEmailAuth requestEmailAuth) {
-        signService.confirmEmail(requestEmailAuth);
-        return "response/successEmailAuth";
     }
 
     @Operation(description = "email과 password를 입력하여 로그인을 진행합니다.")

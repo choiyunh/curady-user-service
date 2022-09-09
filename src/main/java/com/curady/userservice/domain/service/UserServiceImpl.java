@@ -49,4 +49,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         return UserMapper.INSTANCE.entityToResponse(user);
     }
+
+    @Override
+    public Boolean checkUserEmailAuth(Long id) {
+        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return user.isEmailAuth();
+    }
 }

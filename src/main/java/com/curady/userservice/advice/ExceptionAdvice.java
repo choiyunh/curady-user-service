@@ -53,9 +53,15 @@ public class ExceptionAdvice {
         return responseService.getFailureResult(-105, "이메일 인증이 필요합니다.");
     }
 
-    @ExceptionHandler(EmailAuthTokenNotFountException.class)
+    @ExceptionHandler(EmailAuthTokenNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result emailAuthTokenNotFountException() {
+    public Result emailAuthTokenNotFoundException() {
         return responseService.getFailureResult(-106, "유효하지 않은 인증요청입니다.");
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result userNotFoundException() {
+        return responseService.getFailureResult(-107, "존재하지 않는 유저입니다.");
     }
 }

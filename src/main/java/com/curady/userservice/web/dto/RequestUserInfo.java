@@ -10,7 +10,7 @@ import java.util.List;
 public class RequestUserInfo {
     @NotEmpty(message = "이메일은 필수 입력 값입니다.")
     private String email;
-    private List<Tendency> tendency;
+    private List<RequestTendency> requestTendencies;
     private String nickname;
     private String gitUrl;
     private String blogUrl;

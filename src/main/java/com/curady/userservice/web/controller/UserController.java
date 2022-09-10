@@ -29,7 +29,7 @@ public class UserController {
         return responseService.getSingleResult(userService.getUserInfoByEmail(email));
     }
 
-    @Operation(description = "유저의 성향과 기타 정보를 등록합니다.")
+    @Operation(description = "회원가입 시 유저의 성향과 기타 정보를 등록합니다.")
     @PatchMapping("/user/info")
     public SingleResult<ResponseSignup> createUserInfo(@RequestBody RequestUserInfo requestUserInfo) {
         ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo);

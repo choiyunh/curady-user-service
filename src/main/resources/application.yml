@@ -4,7 +4,6 @@ server:
 spring:
   jwt:
     secretKey: zbfpel
-
   application:
     name: user-service
   jpa:
@@ -13,6 +12,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+    defer-datasource-initialization: true
   mail:
     host: smtp.gmail.com
     port: 587
@@ -35,6 +35,10 @@ spring:
         login: https://kauth.kakao.com/oauth/authorize
         token: https://kauth.kakao.com/oauth/token
         profile: https://kapi.kakao.com/v2/user/me
+  sql:
+    init:
+      data-locations: classpath*:initdata/curady_user/data.sql
+      mode: always
 
 eureka:
   instance:

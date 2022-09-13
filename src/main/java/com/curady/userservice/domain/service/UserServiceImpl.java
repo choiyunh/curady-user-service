@@ -30,9 +30,11 @@ public class UserServiceImpl implements UserService {
     private final UserTendencyRepository userTendencyRepository;
 
     @Override
+    @Transactional
     public ResponseSignup createUserInfo(RequestUserInfo request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);
+        userRepository.save(user);
 
         List<RequestTendency> requestTendency = request.getRequestTendencies();
         requestTendency.forEach(v -> {

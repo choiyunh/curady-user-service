@@ -18,7 +18,7 @@ public class Tendency {
 
     @Column(nullable = false, length = 50)
     private String type;
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50)
     private String name;
 
     @OneToMany(mappedBy = "tendency")

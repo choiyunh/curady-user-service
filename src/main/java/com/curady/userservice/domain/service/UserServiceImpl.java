@@ -9,15 +9,18 @@ import com.curady.userservice.domain.mapper.UserMapper;
 import com.curady.userservice.domain.repository.TendencyRepository;
 import com.curady.userservice.domain.repository.UserRepository;
 import com.curady.userservice.domain.repository.UserTendencyRepository;
+import com.curady.userservice.web.dto.RequestTendency;
 import com.curady.userservice.web.dto.RequestUserInfo;
 import com.curady.userservice.web.dto.ResponseSignup;
 import com.curady.userservice.web.dto.ResponseUserInfo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -27,13 +30,16 @@ public class UserServiceImpl implements UserService {
     private final UserTendencyRepository userTendencyRepository;
 
     @Override
+    @Transactional
     public ResponseSignup createUserInfo(RequestUserInfo request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);
+        userRepository.save(user);
 
-        List<Tendency> requestTendency = request.getTendency();
+        List<RequestTendency> requestTendency = request.getRequestTendencies();
         requestTendency.forEach(v -> {
-            Tendency tendency = tendencyRepository.findByName(v.getName()).orElseThrow(TendencyNotFoundException::new);
+            log.info(v.getTendencyName());
+            Tendency tendency = tendencyRepository.findByName(v.getTendencyName()).orElseThrow(TendencyNotFoundException::new);
 
             userTendencyRepository.save(new UserTendency(user, tendency));
         });

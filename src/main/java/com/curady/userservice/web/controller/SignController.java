@@ -41,10 +41,10 @@ public class SignController {
         return responseService.getSingleResult(responseLogin);
     }
 
-    @Operation(description = "kakao 로그인을 진행합니다.")
-    @PostMapping("/login/kakao")
-    public SingleResult<ResponseLogin> loginByKakao(@RequestBody AuthCode authCode) {
-        ResponseLogin responseLogin = signService.loginMemberByProvider(authCode.getCode(), "kakao");
+    @Operation(description = "소셜 로그인을 진행합니다.")
+    @PostMapping("/login/{provider}")
+    public SingleResult<ResponseLogin> loginByKakao(@RequestBody AuthCode authCode, @PathVariable String provider) {
+        ResponseLogin responseLogin = signService.loginUserByProvider(authCode.getCode(), provider);
         return responseService.getSingleResult(responseLogin);
     }
 }

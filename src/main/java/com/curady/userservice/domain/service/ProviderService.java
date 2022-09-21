@@ -29,10 +29,20 @@ public class ProviderService {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         httpHeaders.set("Authorization", "Bearer " + accessToken);
 
-        String profileUrl = oAuthRequestFactory.getProfileUrl(provider);
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, httpHeaders);
-        ResponseEntity<String> response = restTemplate.postForEntity(profileUrl, request, String.class);
+        log.info(String.valueOf(httpHeaders));
 
+        String profileUrl = oAuthRequestFactory.getProfileUrl(provider);
+
+        log.info(profileUrl);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, httpHeaders);
+
+        log.info(String.valueOf(request));
+        ResponseEntity<String> response = restTemplate.postForEntity(profileUrl, request, String.class);
+        log.info(String.valueOf(response));
+        log.info(String.valueOf(response.getStatusCode()));
+        log.info(String.valueOf(response.getStatusCodeValue()));
+        log.info(String.valueOf(HttpStatus.OK));
         try {
             if (response.getStatusCode() == HttpStatus.OK) {
                 return extractProfile(response, provider);
@@ -44,7 +54,10 @@ public class ProviderService {
     }
 
     private ProfileDto extractProfile(ResponseEntity<String> response, String provider) {
+        log.info(response.getBody());
+        log.info(String.valueOf(KakaoProfile.class));
         KakaoProfile kakaoProfile = gson.fromJson(response.getBody(), KakaoProfile.class);
+        log.info(String.valueOf(kakaoProfile));
         return new ProfileDto(kakaoProfile.getKakao_account().getEmail());
     }
 

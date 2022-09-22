@@ -30,11 +30,19 @@ spring:
           writetimeout: 5000
   social:
     kakao:
-      client_id:
+      client_id: 254b82e58533145de909f613785d9999
+      redirect: http://13.125.20.14
       url:
-        login: https://kauth.kakao.com/oauth/authorize
         token: https://kauth.kakao.com/oauth/token
         profile: https://kapi.kakao.com/v2/user/me
+
+    google:
+      client_id: 820009626444-fpmpr75ik4d3409e98h3tvj7dhu713ia.apps.googleusercontent.com
+      client_secret: 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
+      redirect: https://google.com
+      url:
+        token: https://oauth2.googleapis.com/token
+        profile: https://www.googleapis.com/oauth2/v3/userinfo
   sql:
     init:
       data-locations: classpath*:initdata/curady_user/data.sql
@@ -63,9 +71,6 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: root
-  social:
-    kakao:
-      redirect: http://localhost:8000/user-service/login/kakao
 
 eureka:
   client:
@@ -83,9 +88,6 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: roman
     password: ro-man-0509
-  social:
-    kakao:
-      redirect: http://13.124.70.83:8000/user-service/login/kakao
 
 eureka:
   client:

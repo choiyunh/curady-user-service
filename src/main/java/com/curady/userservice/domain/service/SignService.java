@@ -82,7 +82,7 @@ public class SignService {
     }
 
     @Transactional
-    public ResponseLogin loginMemberByProvider(String code, String provider) {
+    public ResponseLogin loginUserByProvider(String code, String provider) {
         AccessToken accessToken = providerService.getAccessToken(code, provider);
         ProfileDto profile = providerService.getProfile(accessToken.getAccess_token(), provider);
 

@@ -1,6 +1,7 @@
 package com.curady.userservice.domain.service;
 
 import com.curady.userservice.domain.auth.profile.GoogleProfile;
+import com.curady.userservice.domain.auth.profile.NaverProfile;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +49,13 @@ public class ProviderService {
         if (provider.equals("kakao")) {
             KakaoProfile kakaoProfile = gson.fromJson(response.getBody(), KakaoProfile.class);
             return new ProfileDto(kakaoProfile.getKakao_account().getEmail());
-        } else {
+        } else if (provider.equals("google")) {
             GoogleProfile googleProfile = gson.fromJson(response.getBody(), GoogleProfile.class);
             return new ProfileDto(googleProfile.getEmail());
+        } else {
+            NaverProfile naverProfile = gson.fromJson(response.getBody(), NaverProfile.class);
+            log.info(naverProfile.getResponse().getEmail());
+            return new ProfileDto(naverProfile.getResponse().getEmail());
         }
     }
 

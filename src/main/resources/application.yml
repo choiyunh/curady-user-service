@@ -43,6 +43,14 @@ spring:
       url:
         token: https://oauth2.googleapis.com/token
         profile: https://www.googleapis.com/oauth2/v3/userinfo
+
+    naver:
+      client_id: D2BLS_XOE7YKWdj7n7VG
+      client_secret: RTOiCrsXLN
+      redirect: https://naver.com
+      url:
+        token: https://nid.naver.com/oauth2.0/token
+        profile: https://openapi.naver.com/v1/nid/me
   sql:
     init:
       data-locations: classpath*:initdata/curady_user/data.sql

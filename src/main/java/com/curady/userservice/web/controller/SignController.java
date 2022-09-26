@@ -8,7 +8,6 @@ import com.curady.userservice.web.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -37,7 +36,7 @@ public class SignController {
 
     @Operation(description = "소셜 로그인을 진행합니다.")
     @PostMapping("/login/{provider}")
-    public SingleResult<ResponseLogin> loginByKakao(@RequestBody AuthCode authCode, @PathVariable String provider) {
+    public SingleResult<ResponseLogin> loginByProvider(@RequestBody AuthCode authCode, @PathVariable String provider) {
         ResponseLogin responseLogin = signService.loginUserByProvider(authCode.getCode(), provider);
         return responseService.getSingleResult(responseLogin);
     }

@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
-import java.nio.charset.StandardCharsets;
-
 @Component
 @RequiredArgsConstructor
 public class OAuthRequestFactory {
 
     private final KakaoInfo kakaoInfo;
     private final GoogleInfo googleInfo;
+    private final NaverInfo naverInfo;
 
     public OAuthRequest getRequest(String code, String provider) {
         LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
@@ -23,27 +22,34 @@ public class OAuthRequestFactory {
             map.add("code", code);
 
             return new OAuthRequest(kakaoInfo.getKakaoTokenUrl(), map);
-
-        } else {
+        } else if (provider.equals("google")) {
             map.add("grant_type", "authorization_code");
             map.add("client_id", googleInfo.getGoogleClientId());
             map.add("client_secret", googleInfo.getGoogleClientSecret());
             map.add("redirect_uri", googleInfo.getGoogleRedirect());
-            map.add("code", java.net.URLDecoder.decode(code, StandardCharsets.UTF_8));
+            map.add("code", code);
 
             return new OAuthRequest(googleInfo.getGoogleTokenUrl(), map);
+        } else {
+            map.add("grant_type", "authorization_code");
+            map.add("client_id", naverInfo.getNaverClientId());
+            map.add("client_secret", naverInfo.getNaverClientSecret());
+            map.add("redirect_uri", naverInfo.getNaverRedirect());
+            map.add("state", "project");
+            map.add("code", code);
+
+            return new OAuthRequest(naverInfo.getNaverTokenUrl(), map);
         }
     }
 
     public String getProfileUrl(String provider) {
         if (provider.equals("kakao")) {
             return kakaoInfo.getKakaoProfileUrl();
-        } else {
+        } else if (provider.equals("google")) {
             return googleInfo.getGoogleProfileUrl();
+        } else {
+            return naverInfo.getNaverProfileUrl();
         }
-//        else if (provider.equals("naver")){
-//            return naverInfo.getNaverProfileUrl();
-//        }
     }
 
     @Getter
@@ -72,5 +78,20 @@ public class OAuthRequestFactory {
         private String googleTokenUrl;
         @Value("${spring.social.google.url.profile}")
         private String googleProfileUrl;
+    }
+
+    @Getter
+    @Component
+    static class NaverInfo {
+        @Value("${spring.social.naver.client_id}")
+        String naverClientId;
+        @Value("${spring.social.naver.redirect}")
+        String naverRedirect;
+        @Value("${spring.social.naver.client_secret}")
+        String naverClientSecret;
+        @Value("${spring.social.naver.url.token}")
+        private String naverTokenUrl;
+        @Value("${spring.social.naver.url.profile}")
+        private String naverProfileUrl;
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmailAuth {
-    private static final Long MAX_EXPIRE_TIME = 605L;
+    private static final Long MAX_EXPIRE_TIME = 604L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -11,6 +11,8 @@ import com.curady.userservice.domain.repository.UserRepository;
 import com.curady.userservice.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -105,5 +107,29 @@ public class SignService {
                 .provider(provider)
                 .build();
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public ResponseToken reissueToken(RequestToken requestToken) {
+        if (!jwtTokenProvider.validateTokenExpiration(requestToken.getRefreshToken()))
+            throw new InvalidRefreshTokenException();
+
+        User user = findUserByToken(requestToken);
+
+        if (!user.getRefreshToken().equals(requestToken.getRefreshToken()))
+            throw new InvalidRefreshTokenException();
+
+        String accessToken = jwtTokenProvider.createToken(user.getEmail());
+        String refreshToken = jwtTokenProvider.createRefreshToken();
+        user.updateRefreshToken(refreshToken);
+
+        return new ResponseToken(accessToken, refreshToken);
+    }
+
+    public User findUserByToken(RequestToken requestToken) {
+        Authentication auth = jwtTokenProvider.getAuthentication(requestToken.getAccessToken());
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        String userEmail = userDetails.getUsername();
+        return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
     }
 }

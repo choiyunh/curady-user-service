@@ -40,4 +40,11 @@ public class SignController {
         ResponseLogin responseLogin = signService.loginUserByProvider(authCode.getCode(), provider);
         return responseService.getSingleResult(responseLogin);
     }
+
+    @Operation(summary = "Refresh Token 재발급", description = "Refresh Token으로 Access Token을 재발급합니다.")
+    @PostMapping("/reissue")
+    public SingleResult<ResponseToken> reissueToken(@RequestBody RequestToken requestToken) {
+        ResponseToken responseToken = signService.reissueToken(requestToken);
+        return responseService.getSingleResult(responseToken);
+    }
 }

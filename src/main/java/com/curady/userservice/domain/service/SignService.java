@@ -92,11 +92,11 @@ public class SignService {
         if (findMember.isPresent()) {
             User user = findMember.get();
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(user.getId(), false, jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
+            return new ResponseSocialLogin(user.getEmail(), false, jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
         } else {
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(saveMember.getId(), true, jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
+            return new ResponseSocialLogin(saveMember.getEmail(), true, jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
         }
     }
 

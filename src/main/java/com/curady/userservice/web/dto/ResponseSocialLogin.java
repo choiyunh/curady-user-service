@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseSocialLogin {
-    private Long id;
+    private String email;
     private boolean isFirst;
     private String token;
     private String refreshToken;

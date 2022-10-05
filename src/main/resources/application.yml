@@ -31,7 +31,7 @@ spring:
   social:
     kakao:
       client_id: 254b82e58533145de909f613785d9999
-      redirect: http://13.125.20.14
+      redirect: http://curady.kr/auth/kakao/callback
       url:
         token: https://kauth.kakao.com/oauth/token
         profile: https://kapi.kakao.com/v2/user/me
@@ -39,7 +39,7 @@ spring:
     google:
       client_id: 820009626444-fpmpr75ik4d3409e98h3tvj7dhu713ia.apps.googleusercontent.com
       client_secret: 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
-      redirect: https://google.com
+      redirect: http://curady.kr/auth/google/callback
       url:
         token: https://oauth2.googleapis.com/token
         profile: https://www.googleapis.com/oauth2/v3/userinfo
@@ -47,7 +47,7 @@ spring:
     naver:
       client_id: D2BLS_XOE7YKWdj7n7VG
       client_secret: RTOiCrsXLN
-      redirect: https://naver.com
+      redirect: http://curady.kr/auth/naver/callback
       url:
         token: https://nid.naver.com/oauth2.0/token
         profile: https://openapi.naver.com/v1/nid/me

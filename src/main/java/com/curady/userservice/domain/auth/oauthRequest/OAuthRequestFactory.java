@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
+import java.nio.charset.StandardCharsets;
+
 @Component
 @RequiredArgsConstructor
 public class OAuthRequestFactory {
@@ -27,7 +29,7 @@ public class OAuthRequestFactory {
             map.add("client_id", googleInfo.getGoogleClientId());
             map.add("client_secret", googleInfo.getGoogleClientSecret());
             map.add("redirect_uri", googleInfo.getGoogleRedirect());
-            map.add("code", code);
+            map.add("code", java.net.URLDecoder.decode(code, StandardCharsets.UTF_8));
 
             return new OAuthRequest(googleInfo.getGoogleTokenUrl(), map);
         } else {

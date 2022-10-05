@@ -84,7 +84,7 @@ public class SignService {
     }
 
     @Transactional
-    public ResponseLogin loginUserByProvider(String code, String provider) {
+    public ResponseSocialLogin loginUserByProvider(String code, String provider) {
         AccessToken accessToken = providerService.getAccessToken(code, provider);
         ProfileDto profile = providerService.getProfile(accessToken.getAccess_token(), provider);
 
@@ -92,11 +92,11 @@ public class SignService {
         if (findMember.isPresent()) {
             User user = findMember.get();
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseLogin(user.getId(), jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
+            return new ResponseSocialLogin(user.getEmail(), false, jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
         } else {
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseLogin(saveMember.getId(), jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
+            return new ResponseSocialLogin(saveMember.getEmail(), true, jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
         }
     }
 

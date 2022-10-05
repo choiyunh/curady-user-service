@@ -36,8 +36,8 @@ public class SignController {
 
     @Operation(description = "소셜 로그인을 진행합니다.")
     @PostMapping("/login/{provider}")
-    public SingleResult<ResponseLogin> loginByProvider(@RequestBody AuthCode authCode, @PathVariable String provider) {
-        ResponseLogin responseLogin = signService.loginUserByProvider(authCode.getCode(), provider);
+    public SingleResult<ResponseSocialLogin> loginByProvider(@RequestBody AuthCode authCode, @PathVariable String provider) {
+        ResponseSocialLogin responseLogin = signService.loginUserByProvider(authCode.getCode(), provider);
         return responseService.getSingleResult(responseLogin);
     }
 

@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseSignup createUserInfo(RequestUserInfo request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UserNotFoundException::new);
+    public ResponseSignup createUserInfo(RequestUserInfo request, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);
         userRepository.save(user);
 

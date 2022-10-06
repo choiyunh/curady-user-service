@@ -31,6 +31,7 @@ INSERT INTO tendency (type, name) values ('feature', 'example');
 INSERT INTO tendency (type, name) values ('feature', 'communication');
 INSERT INTO tendency (type, name) values ('feature', 'theory');
 INSERT INTO tendency (type, name) values ('feature', 'cost');
+INSERT INTO tendency (type, name) values ('feature', 'detail');
 INSERT INTO tendency (type, name) values ('feature', 'simple');
 INSERT INTO tendency (type, name) values ('feature', 'easy');
 INSERT INTO tendency (type, name) values ('feature', 'recent');

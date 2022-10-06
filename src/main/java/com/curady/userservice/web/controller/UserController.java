@@ -1,5 +1,6 @@
 package com.curady.userservice.web.controller;
 
+import com.curady.userservice.advice.exception.NicknameAlreadyExistsException;
 import com.curady.userservice.domain.result.SingleResult;
 import com.curady.userservice.domain.service.ResponseService;
 import com.curady.userservice.domain.service.UserService;
@@ -9,6 +10,7 @@ import com.curady.userservice.web.dto.ResponseUserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +34,12 @@ public class UserController {
     @Operation(description = "회원가입 시 유저의 성향과 기타 정보를 등록합니다.")
     @PatchMapping("/user/info")
     public SingleResult<ResponseSignup> createUserInfo(@RequestBody RequestUserInfo requestUserInfo) {
-        ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo);
-        return responseService.getSingleResult(responseSignup);
+        try {
+            ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo);
+            return responseService.getSingleResult(responseSignup);
+        } catch (DataIntegrityViolationException e) {
+            throw new NicknameAlreadyExistsException();
+        }
     }
 
     @Operation(description = "유저의 이메일 인증 여부를 확인합니다.")

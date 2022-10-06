@@ -30,9 +30,9 @@ public class User {
     private String imageUrl;
     @Column(length = 50, unique = true)
     private String nickname;
-    @Column(unique = true)
+    @Column
     private String gitUrl;
-    @Column(unique = true)
+    @Column
     private String blogUrl;
     @Column(length = 1000)
     private String description;

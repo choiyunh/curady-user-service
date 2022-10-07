@@ -1,5 +1,6 @@
 package com.curady.userservice.domain.service;
 
+import com.curady.userservice.advice.exception.NicknameAlreadyExistsException;
 import com.curady.userservice.advice.exception.TendencyNotFoundException;
 import com.curady.userservice.advice.exception.UserNotFoundException;
 import com.curady.userservice.domain.entity.Tendency;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,14 +36,15 @@ public class UserServiceImpl implements UserService {
     public ResponseSignup createUserInfo(RequestUserInfo request, String email) {
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);
-        userRepository.save(user);
 
         List<RequestTendency> requestTendency = request.getRequestTendencies();
         requestTendency.forEach(v -> {
-            log.info(v.getTendencyName());
             Tendency tendency = tendencyRepository.findByName(v.getTendencyName()).orElseThrow(TendencyNotFoundException::new);
 
-            userTendencyRepository.save(new UserTendency(user, tendency));
+            Optional<UserTendency> userTendency = userTendencyRepository.findByUserAndTendency(user, tendency);
+            if (userTendency.isEmpty()) {
+                userTendencyRepository.save(new UserTendency(user, tendency));
+            }
         });
 
         return ResponseSignup.builder()
@@ -61,4 +64,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         return user.isEmailAuth();
     }
+
+
 }

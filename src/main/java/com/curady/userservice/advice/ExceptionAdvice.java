@@ -64,4 +64,10 @@ public class ExceptionAdvice {
     public Result userNotFoundException() {
         return responseService.getFailureResult(-107, "존재하지 않는 유저입니다.");
     }
+
+    @ExceptionHandler(NicknameAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Result nicknameAlreadyExistsException() {
+        return responseService.getFailureResult(-108, "이미 존재하는 닉네임입니다.");
+    }
 }

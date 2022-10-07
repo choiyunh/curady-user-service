@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
     private final ResponseService responseService;
 
-    @Operation(description = "유저의 정보를 조회합니다.")
+    @Operation(summary = "유저 정보 조회", description = "유저의 정보를 조회합니다.")
     @GetMapping("/user/info")
     public SingleResult<ResponseUserInfo> getUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -29,14 +29,17 @@ public class UserController {
         return responseService.getSingleResult(userService.getUserInfoByEmail(email));
     }
 
-    @Operation(description = "회원가입 시 유저의 성향과 기타 정보를 등록합니다.")
+    @Operation(summary = "유저 추가 정보 등록", description = "회원가입 시 유저의 성향과 기타 정보를 등록합니다.")
     @PatchMapping("/user/info")
     public SingleResult<ResponseSignup> createUserInfo(@RequestBody RequestUserInfo requestUserInfo) {
-        ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo, email);
         return responseService.getSingleResult(responseSignup);
     }
 
-    @Operation(description = "유저의 이메일 인증 여부를 확인합니다.")
+    @Operation(summary = "이메일 인증 여부 확인", description = "유저의 이메일 인증 여부를 확인합니다.")
     @GetMapping("/user/{id}/emailAuth")
     public SingleResult<Boolean> checkEmailAuth(@PathVariable Long id) {
         Boolean response = userService.checkUserEmailAuth(id);

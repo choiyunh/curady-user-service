@@ -58,7 +58,7 @@ public class ProviderService {
         } else {
             NaverProfile naverProfile = gson.fromJson(response.getBody(), NaverProfile.class);
             return new ProfileDto(naverProfile.getResponse().getEmail(),
-                    java.net.URLDecoder.decode(naverProfile.getResponse().getNickname(), StandardCharsets.UTF_8));
+                    naverProfile.getResponse().getNickname());
         }
     }
 

@@ -11,5 +11,6 @@ public class KakaoProfile {
     @Data
     public class KakaoAccount {
         private String email;
+        private String nickname;
     }
 }

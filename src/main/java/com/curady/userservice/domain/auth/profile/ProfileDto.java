@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfileDto {
     private String email;
+    private String nickname;
 }

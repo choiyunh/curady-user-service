@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResponseSocialLogin {
     private String email;
+    private String nickname;
     private boolean isFirst;
     private String token;
     private String refreshToken;

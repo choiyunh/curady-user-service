@@ -92,17 +92,18 @@ public class SignService {
         if (findMember.isPresent()) {
             User user = findMember.get();
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(user.getEmail(), false, jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
+            return new ResponseSocialLogin(user.getEmail(), user.getNickname(), false, jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
         } else {
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(saveMember.getEmail(), true, jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
+            return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getNickname(), true, jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
         }
     }
 
     private User saveUser(ProfileDto profile, String provider) {
         User user = User.builder()
                 .email(profile.getEmail())
+                .nickname(profile.getNickname())
                 .encryptedPwd(null)
                 .provider(provider)
                 .build();

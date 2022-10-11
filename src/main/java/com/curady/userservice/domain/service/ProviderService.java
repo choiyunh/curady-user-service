@@ -17,6 +17,8 @@ import com.curady.userservice.domain.auth.oauthRequest.OAuthRequest;
 import com.curady.userservice.domain.auth.oauthRequest.OAuthRequestFactory;
 import com.curady.userservice.domain.auth.profile.ProfileDto;
 
+import java.nio.charset.StandardCharsets;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -48,14 +50,15 @@ public class ProviderService {
     private ProfileDto extractProfile(ResponseEntity<String> response, String provider) {
         if (provider.equals("kakao")) {
             KakaoProfile kakaoProfile = gson.fromJson(response.getBody(), KakaoProfile.class);
-            return new ProfileDto(kakaoProfile.getKakao_account().getEmail());
+            return new ProfileDto(kakaoProfile.getKakao_account().getEmail(),
+                    kakaoProfile.getProperties().getNickname());
         } else if (provider.equals("google")) {
             GoogleProfile googleProfile = gson.fromJson(response.getBody(), GoogleProfile.class);
-            return new ProfileDto(googleProfile.getEmail());
+            return new ProfileDto(googleProfile.getEmail(), googleProfile.getName());
         } else {
             NaverProfile naverProfile = gson.fromJson(response.getBody(), NaverProfile.class);
-            log.info(naverProfile.getResponse().getEmail());
-            return new ProfileDto(naverProfile.getResponse().getEmail());
+            return new ProfileDto(naverProfile.getResponse().getEmail(),
+                    naverProfile.getResponse().getNickname());
         }
     }
 

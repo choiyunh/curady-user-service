@@ -70,4 +70,10 @@ public class ExceptionAdvice {
     public Result nicknameAlreadyExistsException() {
         return responseService.getFailureResult(-108, "이미 존재하는 닉네임입니다.");
     }
+
+    @ExceptionHandler(TendencyNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result tendencyNotFoundException() {
+        return responseService.getFailureResult(-109, "유효하지 않은 성향입니다.");
+    }
 }

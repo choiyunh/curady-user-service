@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface TendencyRepository extends CrudRepository<Tendency, Long> {
-    Optional<Tendency> findByName(String name);
+    Optional<Tendency> findByNameAndType(String name, String type);
 }

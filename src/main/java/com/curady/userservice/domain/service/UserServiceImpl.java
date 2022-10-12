@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
         List<RequestTendency> requestTendency = request.getRequestTendencies();
         requestTendency.forEach(v -> {
-            Tendency tendency = tendencyRepository.findByName(v.getTendencyName()).orElseThrow(TendencyNotFoundException::new);
+            Tendency tendency = tendencyRepository.findByNameAndType(v.getTendencyName(), v.getTendencyType()).orElseThrow(TendencyNotFoundException::new);
 
             Optional<UserTendency> userTendency = userTendencyRepository.findByUserAndTendency(user, tendency);
             if (userTendency.isEmpty()) {

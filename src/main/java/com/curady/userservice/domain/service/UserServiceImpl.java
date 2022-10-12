@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseSignup createUserInfo(RequestUserInfo request, String email) {
+        if (userRepository.findByNickname(request.getNickname()).isPresent())
+            throw new NicknameAlreadyExistsException();
+
         User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);
 

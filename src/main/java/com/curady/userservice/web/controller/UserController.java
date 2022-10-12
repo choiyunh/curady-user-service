@@ -37,12 +37,8 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        try {
-            ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo, email);
-            return responseService.getSingleResult(responseSignup);
-        } catch (DataIntegrityViolationException e) {
-            throw new NicknameAlreadyExistsException();
-        }
+        ResponseSignup responseSignup = userService.createUserInfo(requestUserInfo, email);
+        return responseService.getSingleResult(responseSignup);
     }
 
     @Operation(description = "유저의 이메일 인증 여부를 확인합니다.")

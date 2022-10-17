@@ -80,7 +80,7 @@ public class SignService {
         if (!user.isEmailAuth())
             throw new EmailNotAuthenticatedException();
         user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-        return new ResponseLogin(user.getId(), jwtTokenProvider.createToken(request.getEmail()), user.getRefreshToken());
+        return new ResponseLogin(user.getId(), jwtTokenProvider.createToken(String.valueOf(user.getId())), user.getRefreshToken());
     }
 
     @Transactional
@@ -92,11 +92,11 @@ public class SignService {
         if (findMember.isPresent()) {
             User user = findMember.get();
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(user.getEmail(), user.getNickname(), false, jwtTokenProvider.createToken(findMember.get().getEmail()), user.getRefreshToken());
+            return new ResponseSocialLogin(user.getEmail(), user.getNickname(), false, jwtTokenProvider.createToken(String.valueOf(findMember.get().getId())), user.getRefreshToken());
         } else {
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getNickname(), true, jwtTokenProvider.createToken(saveMember.getEmail()), saveMember.getRefreshToken());
+            return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getNickname(), true, jwtTokenProvider.createToken(String.valueOf(saveMember.getId())), saveMember.getRefreshToken());
         }
     }
 
@@ -120,7 +120,7 @@ public class SignService {
         if (!user.getRefreshToken().equals(requestToken.getRefreshToken()))
             throw new InvalidRefreshTokenException();
 
-        String accessToken = jwtTokenProvider.createToken(user.getEmail());
+        String accessToken = jwtTokenProvider.createToken(String.valueOf(user.getId()));
         String refreshToken = jwtTokenProvider.createRefreshToken();
         user.updateRefreshToken(refreshToken);
 

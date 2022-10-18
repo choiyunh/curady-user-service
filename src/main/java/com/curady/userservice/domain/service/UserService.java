@@ -8,8 +8,8 @@ import com.curady.userservice.web.dto.ResponseUserNicknameAndImage;
 import java.util.List;
 
 public interface UserService {
-    ResponseSignup createUserInfo(RequestUserInfo request, String email);
-    ResponseUserInfo getUserInfoByEmail(String email);
+    ResponseSignup createUserInfo(RequestUserInfo request, String id);
+    ResponseUserInfo getUserInfo(String id);
     Boolean checkUserEmailAuth(Long id);
     List<ResponseUserNicknameAndImage> getUsersNicknameAndImage(List<Long> list);
 }

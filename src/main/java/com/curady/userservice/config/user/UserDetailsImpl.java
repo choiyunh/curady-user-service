@@ -9,13 +9,13 @@ import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private String email;
+    private String id;
     private String password;
     List<GrantedAuthority> authorities;
 
     @Builder
-    public UserDetailsImpl(String email, String password, List<GrantedAuthority> authorities) {
-        this.email = email;
+    public UserDetailsImpl(String id, String password, List<GrantedAuthority> authorities) {
+        this.id = id;
         this.password = password;
         this.authorities = authorities;
     }
@@ -32,7 +32,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return id;
     }
 
     @Override

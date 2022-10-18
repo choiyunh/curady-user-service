@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public ResponseSignup createUserInfo(RequestUserInfo request, String email) {
+    public ResponseSignup createUserInfo(RequestUserInfo request, String id) {
         if (userRepository.findByNickname(request.getNickname()).isPresent())
             throw new NicknameAlreadyExistsException();
 
-        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(Long.valueOf(id)).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);
 
         List<RequestTendency> requestTendency = request.getRequestTendencies();
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserInfo getUserInfoByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    public ResponseUserInfo getUserInfo(String id) {
+        User user = userRepository.findById(Long.valueOf(id)).orElseThrow(UserNotFoundException::new);
         return UserMapper.INSTANCE.entityToResponse(user);
     }
 

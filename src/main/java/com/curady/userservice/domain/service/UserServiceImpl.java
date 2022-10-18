@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ResponseUserNicknameAndImage> getUsersNicknameAndImage(List<Long> list) {
-        return UserMapper.INSTANCE.usersToResponseList(userRepository.findByIdIn(list));
+        List<User> users = new ArrayList<>();
+        list.forEach(v -> {
+            users.add(userRepository.findById(v).orElseThrow(UserNotFoundException::new));
+        });
+        return UserMapper.INSTANCE.usersToResponseList(users);
     }
 }

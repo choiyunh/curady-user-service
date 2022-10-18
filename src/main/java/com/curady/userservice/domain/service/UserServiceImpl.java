@@ -10,10 +10,7 @@ import com.curady.userservice.domain.mapper.UserMapper;
 import com.curady.userservice.domain.repository.TendencyRepository;
 import com.curady.userservice.domain.repository.UserRepository;
 import com.curady.userservice.domain.repository.UserTendencyRepository;
-import com.curady.userservice.web.dto.RequestTendency;
-import com.curady.userservice.web.dto.RequestUserInfo;
-import com.curady.userservice.web.dto.ResponseSignup;
-import com.curady.userservice.web.dto.ResponseUserInfo;
+import com.curady.userservice.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -68,5 +65,8 @@ public class UserServiceImpl implements UserService {
         return user.isEmailAuth();
     }
 
-
+    @Override
+    public List<ResponseUserNicknameAndImage> getUsersNicknameAndImage(List<Long> list) {
+        return UserMapper.INSTANCE.usersToResponseList(userRepository.findByIdIn(list));
+    }
 }

@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @Operation(description = "유저 닉네임, 이미지 조회(서비스 간 통신용)", summary = "유저 닉네임, 이미지 조회(서비스 간 통신용)")
-    @PostMapping("/users/nickname/img")
+    @GetMapping("/users/nickname/img")
     public MultipleResult<ResponseUserNicknameAndImage> getUsersNicknameAndImage(@RequestBody List<Long> list) {
         List<ResponseUserNicknameAndImage> response = userService.getUsersNicknameAndImage(list);
         return responseService.getMultipleResult(response);

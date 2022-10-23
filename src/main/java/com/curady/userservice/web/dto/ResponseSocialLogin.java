@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ResponseSocialLogin {
     private String email;
     private String nickname;
-    private boolean isFirst;
+    private Boolean isFirst;
     private String token;
     private String refreshToken;
 }

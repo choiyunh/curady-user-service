@@ -13,5 +13,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByEmailAndProvider(String email, String provider);
 
-    List<User> findByIdIn(List<Long> list);
+    Optional<User> findByRefreshToken(String refreshToken);
 }

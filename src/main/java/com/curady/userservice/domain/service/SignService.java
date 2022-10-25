@@ -128,9 +128,6 @@ public class SignService {
     }
 
     public User findUserByToken(RequestToken requestToken) {
-        Authentication auth = jwtTokenProvider.getAuthentication(requestToken.getAccessToken());
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        String userEmail = userDetails.getUsername();
-        return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+        return userRepository.findByRefreshToken(requestToken.getRefreshToken()).orElseThrow(UserNotFoundException::new);
     }
 }

@@ -28,7 +28,7 @@ public class User {
     private String encryptedPwd;
     @Column
     private String imageUrl;
-    @Column(length = 50)
+    @Column(length = 50, unique = true)
     private String nickname;
     @Column
     private String gitUrl;
@@ -43,10 +43,10 @@ public class User {
     @Column
     private String refreshToken;
 
-    @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
     private Date createdAt;
-    @Column(nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @UpdateTimestamp
     private Date updatedAt;
 
@@ -71,6 +71,7 @@ public class User {
         this.blogUrl = request.getBlogUrl();
         this.description = request.getDescription();
     }
+
     public void addRole(Role role) {
         this.roles.add(role);
     }
@@ -83,8 +84,7 @@ public class User {
         this.isEmailAuth = true;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.nickname = this.nickname == null ? "익명이" : this.nickname;
+    public void setDefaultNickname(Long id) {
+        this.nickname = "익명이 " + id;
     }
 }

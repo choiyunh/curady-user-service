@@ -28,7 +28,7 @@ public class User {
     private String encryptedPwd;
     @Column
     private String imageUrl;
-    @Column(length = 50, unique = true)
+    @Column(length = 50)
     private String nickname;
     @Column
     private String gitUrl;
@@ -49,6 +49,9 @@ public class User {
     @Column(nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @UpdateTimestamp
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserTendency> userTendencies = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
@@ -80,6 +83,8 @@ public class User {
         this.isEmailAuth = true;
     }
 
-    @OneToMany(mappedBy = "user")
-    private List<UserTendency> userTendencies = new ArrayList<>();
+    @PrePersist
+    public void prePersist() {
+        this.nickname = this.nickname == null ? "익명이" : this.nickname;
+    }
 }

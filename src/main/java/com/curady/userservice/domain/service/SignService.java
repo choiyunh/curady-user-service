@@ -11,8 +11,6 @@ import com.curady.userservice.domain.repository.UserRepository;
 import com.curady.userservice.web.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +22,6 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SignService {
     private final JwtTokenProvider jwtTokenProvider;
@@ -34,6 +31,7 @@ public class SignService {
     private final ProviderService providerService;
     private final UserRepository userRepository;
 
+    @Transactional
     public ResponseSignup createUser(RequestSignup request) throws MessagingException {
         validateDuplicated(request.getEmail());
         EmailAuth emailAuth = emailAuthRepository.save(
@@ -50,6 +48,7 @@ public class SignService {
                         .encryptedPwd(passwordEncoder.encode(request.getPassword()))
                         .isEmailAuth(false)
                         .build());
+        user.setDefaultNickname(user.getId());
 
         return ResponseSignup.builder()
                 .id(user.getId())

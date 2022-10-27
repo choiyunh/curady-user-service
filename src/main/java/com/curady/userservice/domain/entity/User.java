@@ -43,12 +43,15 @@ public class User {
     @Column
     private String refreshToken;
 
-    @Column(nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
     private Date createdAt;
-    @Column(nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @UpdateTimestamp
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserTendency> userTendencies = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
@@ -68,6 +71,7 @@ public class User {
         this.blogUrl = request.getBlogUrl();
         this.description = request.getDescription();
     }
+
     public void addRole(Role role) {
         this.roles.add(role);
     }
@@ -80,6 +84,7 @@ public class User {
         this.isEmailAuth = true;
     }
 
-    @OneToMany(mappedBy = "user")
-    private List<UserTendency> userTendencies = new ArrayList<>();
+    public void setDefaultNickname(Long id) {
+        this.nickname = "익명이 " + id;
+    }
 }

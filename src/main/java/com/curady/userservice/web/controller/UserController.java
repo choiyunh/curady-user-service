@@ -27,7 +27,7 @@ public class UserController {
     private final ResponseService responseService;
 
     @Operation(description = "유저의 정보를 조회합니다.", summary = "유저 정보 조회")
-    @GetMapping("/user/info")
+    @GetMapping("/auth/user/info")
     public SingleResult<ResponseUserInfo> getUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @Operation(description = "회원가입 시 유저의 성향과 기타 정보를 등록합니다.", summary = "유저 정보 등록")
-    @PatchMapping("/user/info")
+    @PatchMapping("/auth/user/info")
     public SingleResult<ResponseSignup> createUserInfo(@RequestBody RequestUserInfo requestUserInfo) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();

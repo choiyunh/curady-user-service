@@ -94,7 +94,9 @@ public class SignService {
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
             return new ResponseSocialLogin(user.getEmail(), user.getId(), user.getNickname(), false, jwtTokenProvider.createToken(String.valueOf(findMember.get().getId())), user.getRefreshToken());
         } else {
-            userRepository.findByEmail(profile.getEmail()).orElseThrow(UserEmailAlreadyExistsException::new);
+            if (userRepository.findByEmail(profile.getEmail()).isPresent()) {
+                throw new UserEmailAlreadyExistsException();
+            }
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
             return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getId(), saveMember.getNickname(), true, jwtTokenProvider.createToken(String.valueOf(saveMember.getId())), saveMember.getRefreshToken());

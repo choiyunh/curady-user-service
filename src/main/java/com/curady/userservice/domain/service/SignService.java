@@ -79,7 +79,7 @@ public class SignService {
         if (!user.isEmailAuth())
             throw new EmailNotAuthenticatedException();
         user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-        return new ResponseLogin(user.getId(), jwtTokenProvider.createToken(String.valueOf(user.getId())), user.getRefreshToken());
+        return new ResponseLogin(user.getId(), user.getNickname(), jwtTokenProvider.createToken(String.valueOf(user.getId())), user.getRefreshToken());
     }
 
     @Transactional
@@ -91,11 +91,11 @@ public class SignService {
         if (findMember.isPresent()) {
             User user = findMember.get();
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(user.getEmail(), user.getNickname(), false, jwtTokenProvider.createToken(String.valueOf(findMember.get().getId())), user.getRefreshToken());
+            return new ResponseSocialLogin(user.getEmail(), user.getId(), user.getNickname(), false, jwtTokenProvider.createToken(String.valueOf(findMember.get().getId())), user.getRefreshToken());
         } else {
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getNickname(), true, jwtTokenProvider.createToken(String.valueOf(saveMember.getId())), saveMember.getRefreshToken());
+            return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getId(), saveMember.getNickname(), true, jwtTokenProvider.createToken(String.valueOf(saveMember.getId())), saveMember.getRefreshToken());
         }
     }
 

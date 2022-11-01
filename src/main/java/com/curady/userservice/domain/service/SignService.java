@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.mail.MessagingException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -93,6 +94,7 @@ public class SignService {
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
             return new ResponseSocialLogin(user.getEmail(), user.getId(), user.getNickname(), false, jwtTokenProvider.createToken(String.valueOf(findMember.get().getId())), user.getRefreshToken());
         } else {
+            userRepository.findByEmail(profile.getEmail()).orElseThrow(UserEmailAlreadyExistsException::new);
             User saveMember = saveUser(profile, provider);
             saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
             return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getId(), saveMember.getNickname(), true, jwtTokenProvider.createToken(String.valueOf(saveMember.getId())), saveMember.getRefreshToken());

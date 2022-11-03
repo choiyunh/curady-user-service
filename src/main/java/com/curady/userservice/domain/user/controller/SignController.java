@@ -23,7 +23,7 @@ public class SignController {
 
     @Operation(description = "email과 password를 입력하여 회원가입을 진행합니다.")
     @PostMapping("/signup")
-    public SingleResult<ResponseSignup> createUser(@RequestBody RequestSignup requestSignup) throws MessagingException {
+    public SingleResult<ResponseSignup> createUser(@RequestBody RequestSignup requestSignup) {
         ResponseSignup responseSignup = signService.createUser(requestSignup);
         return responseService.getSingleResult(responseSignup);
     }

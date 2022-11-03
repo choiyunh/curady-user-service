@@ -1,5 +1,6 @@
 package com.curady.userservice.domain.user.service;
 
+import com.curady.userservice.global.advice.exception.EmailSenderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -57,7 +58,7 @@ public class EmailSenderService {
             helper.setSubject("curady 인증 메일");
             helper.setText(emailcontent.toString(), true);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new EmailSenderException();
         }
 
         javaMailSender.send(mimeMessage);

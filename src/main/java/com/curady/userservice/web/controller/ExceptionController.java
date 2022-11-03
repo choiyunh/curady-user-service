@@ -5,7 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.curady.userservice.advice.exception.AuthenticationEntryPointException;
+import com.curady.userservice.global.advice.exception.AuthenticationEntryPointException;
 
 @Slf4j
 @RestController

@@ -1,6 +1,6 @@
 package com.curady.userservice.web.controller;
 
-import com.curady.userservice.domain.service.SignService;
+import com.curady.userservice.domain.user.service.SignService;
 import com.curady.userservice.web.dto.RequestEmailAuth;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

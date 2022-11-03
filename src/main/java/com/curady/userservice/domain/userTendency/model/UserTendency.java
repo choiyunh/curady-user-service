@@ -2,14 +2,13 @@ package com.curady.userservice.domain.userTendency.model;
 
 import com.curady.userservice.domain.tendency.model.Tendency;
 import com.curady.userservice.domain.user.model.User;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @Entity
-
 @NoArgsConstructor
 @Table(name = "user_tendency")
 public class UserTendency {

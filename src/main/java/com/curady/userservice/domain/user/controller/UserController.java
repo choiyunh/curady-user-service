@@ -1,13 +1,11 @@
 package com.curady.userservice.domain.user.controller;
 
-import com.curady.userservice.domain.userTendency.repository.result.MultipleResult;
-import com.curady.userservice.domain.userTendency.repository.result.SingleResult;
+import com.curady.userservice.domain.user.dto.*;
+import com.curady.userservice.global.result.MultipleResult;
+import com.curady.userservice.global.result.Result;
+import com.curady.userservice.global.result.SingleResult;
 import com.curady.userservice.global.service.ResponseService;
 import com.curady.userservice.domain.user.service.UserService;
-import com.curady.userservice.domain.user.dto.RequestUserInfo;
-import com.curady.userservice.domain.user.dto.ResponseSignup;
-import com.curady.userservice.domain.user.dto.ResponseUserInfo;
-import com.curady.userservice.domain.user.dto.ResponseUserNicknameAndImage;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,5 +53,15 @@ public class UserController {
     public MultipleResult<ResponseUserNicknameAndImage> getUsersNicknameAndImage(@RequestBody List<Long> list) {
         List<ResponseUserNicknameAndImage> response = userService.getUsersNicknameAndImage(list);
         return responseService.getMultipleResult(response);
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
+    @DeleteMapping("/auth/user")
+    public Result deleteUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+
+        userService.deleteUser(id);
+        return responseService.getSuccessResult();
     }
 }

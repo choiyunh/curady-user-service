@@ -10,4 +10,6 @@ import java.util.Optional;
 
 public interface UserTendencyRepository extends CrudRepository<UserTendency, Long> {
     Optional<UserTendency> findByUserAndTendency(User user, Tendency tendency);
+
+    void deleteAllByUser(User user);
 }

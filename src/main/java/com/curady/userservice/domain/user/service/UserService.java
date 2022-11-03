@@ -12,4 +12,5 @@ public interface UserService {
     ResponseUserInfo getUserInfo(String id);
     Boolean checkUserEmailAuth(Long id);
     List<ResponseUserNicknameAndImage> getUsersNicknameAndImage(List<Long> list);
+    void deleteUser(String userId);
 }

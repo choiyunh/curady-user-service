@@ -1,7 +1,7 @@
 package com.curady.userservice.domain.user.controller;
 
 import com.curady.userservice.domain.auth.AuthCode;
-import com.curady.userservice.domain.userTendency.repository.result.SingleResult;
+import com.curady.userservice.global.result.SingleResult;
 import com.curady.userservice.global.service.ResponseService;
 import com.curady.userservice.domain.user.service.SignService;
 import com.curady.userservice.domain.user.dto.*;

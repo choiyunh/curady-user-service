@@ -1,4 +1,4 @@
-package com.curady.userservice.domain.userTendency.repository.result;
+package com.curady.userservice.global.result;
 
 import lombok.Getter;
 import lombok.Setter;

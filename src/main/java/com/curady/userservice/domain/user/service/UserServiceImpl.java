@@ -1,5 +1,6 @@
 package com.curady.userservice.domain.user.service;
 
+import com.curady.userservice.global.advice.exception.AuthenticationEntryPointException;
 import com.curady.userservice.global.advice.exception.NicknameAlreadyExistsException;
 import com.curady.userservice.global.advice.exception.TendencyNotFoundException;
 import com.curady.userservice.global.advice.exception.UserNotFoundException;
@@ -77,5 +78,16 @@ public class UserServiceImpl implements UserService {
             users.add(userRepository.findById(v).orElseThrow(UserNotFoundException::new));
         });
         return UserMapper.INSTANCE.usersToResponseList(users);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(String userId) {
+        if (userId.equals("anonymousUser")) {
+            throw new AuthenticationEntryPointException();
+        }
+        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(UserNotFoundException::new);
+        userTendencyRepository.deleteAllByUser(user);
+        userRepository.delete(user);
     }
 }

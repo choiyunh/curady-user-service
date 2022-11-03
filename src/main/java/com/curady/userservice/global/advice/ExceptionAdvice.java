@@ -7,7 +7,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.curady.userservice.domain.userTendency.repository.result.Result;
+import com.curady.userservice.global.result.Result;
 import com.curady.userservice.global.service.ResponseService;
 
 

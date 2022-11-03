@@ -1,8 +1,8 @@
 package com.curady.userservice.global.service;
 
-import com.curady.userservice.domain.userTendency.repository.result.MultipleResult;
-import com.curady.userservice.domain.userTendency.repository.result.Result;
-import com.curady.userservice.domain.userTendency.repository.result.SingleResult;
+import com.curady.userservice.global.result.MultipleResult;
+import com.curady.userservice.global.result.Result;
+import com.curady.userservice.global.result.SingleResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

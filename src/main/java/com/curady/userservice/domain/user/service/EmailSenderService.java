@@ -1,5 +1,6 @@
 package com.curady.userservice.domain.user.service;
 
+import com.curady.userservice.global.advice.exception.EmailSenderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,7 +16,7 @@ public class EmailSenderService {
     private final JavaMailSender javaMailSender;
 
     @Async
-    public void sendEmail(String email, String authToken) throws MessagingException {
+    public void sendEmail(String email, String authToken) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
@@ -51,10 +52,14 @@ public class EmailSenderService {
         emailcontent.append("</body>");
         emailcontent.append("</html>");
 
-        helper.setFrom("ROMANTICISM");
-        helper.setTo(email);
-        helper.setSubject("curady 인증 메일");
-        helper.setText(emailcontent.toString(), true);
+        try {
+            helper.setFrom("ROMANTICISM");
+            helper.setTo(email);
+            helper.setSubject("curady 인증 메일");
+            helper.setText(emailcontent.toString(), true);
+        } catch (MessagingException e) {
+            throw new EmailSenderException();
+        }
 
         javaMailSender.send(mimeMessage);
     }

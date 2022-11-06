@@ -33,7 +33,7 @@ public class SignService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseSignup createUser(RequestSignup request) throws MessagingException {
+    public ResponseSignup createUser(RequestSignup request) {
         validateDuplicated(request.getEmail());
         EmailAuth emailAuth = emailAuthRepository.save(
                 EmailAuth.builder()

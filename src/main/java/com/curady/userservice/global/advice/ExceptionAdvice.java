@@ -76,4 +76,10 @@ public class ExceptionAdvice {
     public Result tendencyNotFoundException() {
         return responseService.getFailureResult(-109, "유효하지 않은 성향입니다.");
     }
+
+    @ExceptionHandler(EmailSenderException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result EmailSenderException() {
+        return responseService.getFailureResult(-110, "이메일 전송에 실패했습니다.");
+    }
 }

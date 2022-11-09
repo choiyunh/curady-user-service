@@ -37,8 +37,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseSignup createUserInfo(RequestUserInfo request, String id) {
-        if (userRepository.findByNickname(request.getNickname()).isPresent())
-            throw new NicknameAlreadyExistsException();
+        Optional<User> userByNickname = userRepository.findByNickname(request.getNickname());
+        if (userByNickname.isPresent()) {
+            if (!userByNickname.get().getId().equals(Long.valueOf(id))) {
+                throw new NicknameAlreadyExistsException();
+            }
+        }
 
         User user = userRepository.findById(Long.valueOf(id)).orElseThrow(UserNotFoundException::new);
         user.updateUserInfo(request);

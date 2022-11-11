@@ -91,7 +91,6 @@ public class UserServiceImpl implements UserService {
             throw new AuthenticationEntryPointException();
         }
         User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(UserNotFoundException::new);
-        userTendencyRepository.deleteAllByUser(user);
-        userRepository.delete(user);
+        user.withdraw();
     }
 }

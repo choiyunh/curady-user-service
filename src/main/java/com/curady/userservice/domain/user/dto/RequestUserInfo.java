@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 public class RequestUserInfo {
     private List<RequestTendency> requestTendencies;
-    private String email;
     private String nickname;
     private String gitUrl;
     private String blogUrl;

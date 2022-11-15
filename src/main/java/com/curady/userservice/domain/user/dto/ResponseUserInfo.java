@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseUserInfo {
+    private String email;
     private String nickname;
     private String imageUrl;
     private String gitUrl;

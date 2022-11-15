@@ -44,6 +44,7 @@ public class User {
     private boolean isEmailAuth;
     @Column
     private String refreshToken;
+    private boolean withdraw = false;
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
@@ -54,7 +55,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<UserTendency> userTendencies = new ArrayList<>();
-
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     private List<Role> roles = new ArrayList<>();
@@ -88,5 +88,11 @@ public class User {
 
     public void setDefaultNickname(Long id) {
         this.nickname = "익명이 " + id;
+    }
+    public void withdraw() {
+        this.withdraw = true;
+        this.email = "탈퇴한 이메일 " + id;
+        this.nickname = "탈퇴한 회원 " + id;
+        this.imageUrl = null;
     }
 }

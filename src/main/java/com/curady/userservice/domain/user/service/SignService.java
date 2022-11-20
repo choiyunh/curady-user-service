@@ -94,19 +94,27 @@ public class SignService {
             user.updateRefreshToken(jwtTokenProvider.createRefreshToken());
             return new ResponseSocialLogin(user.getEmail(), user.getId(), user.getNickname(), false, jwtTokenProvider.createToken(String.valueOf(findMember.get().getId())), user.getRefreshToken());
         } else {
+            User savedUser;
             if (userRepository.findByEmail(profile.getEmail()).isPresent()) {
                 throw new UserEmailAlreadyExistsException();
+            } else if (userRepository.findByNickname(profile.getNickname()).isPresent()) {
+                savedUser = saveUser(profile.getEmail(), "", provider);
+                savedUser.setDefaultNickname(savedUser.getId());
+            } else {
+                savedUser = saveUser(profile.getEmail(), profile.getNickname(), provider);
             }
-            User saveMember = saveUser(profile, provider);
-            saveMember.updateRefreshToken(jwtTokenProvider.createRefreshToken());
-            return new ResponseSocialLogin(saveMember.getEmail(), saveMember.getId(), saveMember.getNickname(), true, jwtTokenProvider.createToken(String.valueOf(saveMember.getId())), saveMember.getRefreshToken());
+            savedUser.updateRefreshToken(jwtTokenProvider.createRefreshToken());
+            return new ResponseSocialLogin(savedUser.getEmail(),
+                    savedUser.getId(), profile.getNickname(),
+                    true,
+                    jwtTokenProvider.createToken(String.valueOf(savedUser.getId())), savedUser.getRefreshToken());
         }
     }
 
-    private User saveUser(ProfileDto profile, String provider) {
+    private User saveUser(String email, String nickname, String provider) {
         User user = User.builder()
-                .email(profile.getEmail())
-                .nickname(profile.getNickname())
+                .email(email)
+                .nickname(nickname)
                 .encryptedPwd(null)
                 .provider(provider)
                 .build();

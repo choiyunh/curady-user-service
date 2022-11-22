@@ -66,7 +66,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseUserInfo getUserInfo(String id) {
         User user = userRepository.findById(Long.valueOf(id)).orElseThrow(UserNotFoundException::new);
-        return UserMapper.INSTANCE.entityToResponse(user);
+        ResponseUserInfo responseUserInfo = UserMapper.INSTANCE.userToResponseInfo(user);
+        List<UserTendency> userTendencies = user.getUserTendencies();
+        for (UserTendency userTendency : userTendencies) {
+            responseUserInfo.getTendencyList().add(userTendency.getTendency().getName());
+        }
+        return responseUserInfo;
     }
 
     @Override
@@ -81,7 +86,7 @@ public class UserServiceImpl implements UserService {
         list.forEach(v -> {
             users.add(userRepository.findById(v).orElseThrow(UserNotFoundException::new));
         });
-        return UserMapper.INSTANCE.usersToResponseList(users);
+        return UserMapper.INSTANCE.usersToResponseNicknameAndImageList(users);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.curady.userservice.domain.user.service;
 
+import com.curady.userservice.domain.tendency.vo.TendencyVo;
 import com.curady.userservice.global.advice.exception.AuthenticationEntryPointException;
 import com.curady.userservice.global.advice.exception.NicknameAlreadyExistsException;
 import com.curady.userservice.global.advice.exception.TendencyNotFoundException;
@@ -68,8 +69,11 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(Long.valueOf(id)).orElseThrow(UserNotFoundException::new);
         ResponseUserInfo responseUserInfo = UserMapper.INSTANCE.userToResponseInfo(user);
         List<UserTendency> userTendencies = user.getUserTendencies();
+        TendencyVo tendencyVo = new TendencyVo();
         for (UserTendency userTendency : userTendencies) {
-            responseUserInfo.getTendencyList().add(userTendency.getTendency().getName());
+            responseUserInfo.getTendencyList()
+                    .add(tendencyVo.getTendencyName(
+                            userTendency.getTendency().getName()));
         }
         return responseUserInfo;
     }

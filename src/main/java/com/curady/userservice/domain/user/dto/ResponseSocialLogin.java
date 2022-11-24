@@ -11,6 +11,7 @@ public class ResponseSocialLogin {
     private String email;
     private Long id;
     private String nickname;
+    private String tempNickname;
     private Boolean isFirst;
     private String token;
     private String refreshToken;

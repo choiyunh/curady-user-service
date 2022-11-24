@@ -31,6 +31,7 @@ public class TendencyVo {
         this.tendencyMap.put("scala", "Scala");
         this.tendencyMap.put("swift", "Swift");
         this.tendencyMap.put("mysql", "MySQL");
+        this.tendencyMap.put("oracle", "Oracle");
         this.tendencyMap.put("project", "프로젝트 중심 실습");
         this.tendencyMap.put("example", "예제와 풀이 실습");
         this.tendencyMap.put("communication", "소통을 잘하는 강사님");
